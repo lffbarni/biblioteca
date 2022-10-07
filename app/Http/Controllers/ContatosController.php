@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Contato;
-
+use Session;
 
 class ContatosController extends Controller
 {
@@ -15,8 +15,8 @@ class ContatosController extends Controller
      */
     public function index()
     {
-        $contatos = Contato::all()->sortByAsc('nome');
-        return view('contato.index',array('contatos' =>$contatos));
+        $contatos = Contato::all();
+        return view('contato.index',array('contatos' => $contatos,'busca'=>null));
     }
 
     /**
@@ -26,7 +26,7 @@ class ContatosController extends Controller
      */
     public function create()
     {
-        //
+        return view('contato.create');
     }
 
     /**
@@ -37,7 +37,15 @@ class ContatosController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $contato = new Contato();
+        $contato->nome = $request->input('nome');
+        $contato->email = $request->input('email');
+        $contato->telefone = $request->input('telefone');
+        $contato->cidade = $request->input('cidade');
+        $contato->estado = $request->input('estado');
+        if($contato->save()) {
+            return redirect('contatos');
+        }
     }
 
     /**
@@ -48,7 +56,8 @@ class ContatosController extends Controller
      */
     public function show($id)
     {
-        //
+        $contato = Contato::find($id);
+        return view('contato.show',array('contato' => $contato));
     }
 
     /**
@@ -59,7 +68,8 @@ class ContatosController extends Controller
      */
     public function edit($id)
     {
-        //
+        $contato = Contato::find($id);
+        return view('contato.edit',array('contato' => $contato));
     }
 
     /**
@@ -71,7 +81,16 @@ class ContatosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $contato = Contato::find($id);
+        $contato->nome = $request->input('nome');
+        $contato->email = $request->input('email');
+        $contato->telefone = $request->input('telefone');
+        $contato->cidade = $request->input('cidade');
+        $contato->estado = $request->input('estado');
+        if($contato->save()) {
+            Session::flash('mensagem','Contato alterado com sucesso');
+            return redirect()->back();
+        }
     }
 
     /**
@@ -82,6 +101,9 @@ class ContatosController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $contato = Contato::find($id);
+        $contato->delete();
+        Session::flash('mensagem','Contato Excluído com Sucesso');
+        return redirect(url('contatos/'));
     }
 }
