@@ -7,22 +7,23 @@
             {{Session::get('mensagem')}}
         </div>
     @endif
-
-    <br />
     {{Form::open(['url'=>['contatos/buscar']])}}
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="input-group">
+        <div class="row">
+            <div class="col-sm-3">
                 <a class="btn btn-success" href="{{url('contatos/create')}}">Criar</a>
-                {{Form::text('busca',$busca,['class'=>'form-control','required','placeholder'=>'buscar'])}}
-                <span class="input-group-btn">
-                    {{Form::submit('Buscar',['class'=>'btn btn-secondary'])}}
-                </span>
+            </div>
+            <div class="col-sm-9">
+                <div class="input-group ml-5">
+                    {{Form::text('busca',$busca,['class'=>'form-control','required','placeholder'=>'buscar'])}}
+                    &nbsp;
+                    <span class="input-group-btn">
+                        {{Form::submit('Buscar',['class'=>'btn btn-secondary'])}}
+                    </span>
+                </div>
             </div>
         </div>
-    </div>
     {{Form::close()}}
-    <br /><br />
+    <br />
     <table class="table table-striped">
         @foreach ($contatos as $contato)
             <tr>
@@ -33,3 +34,4 @@
         @endforeach
     </table>
 @endsection
+
