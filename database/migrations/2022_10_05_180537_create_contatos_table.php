@@ -13,16 +13,17 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('contatos', function (Blueprint $table) {
+        Schema::create('livros', function (Blueprint $table) {
             $table->id();
-            $table->string('nome');
-            $table->string('email');
-            $table->string('telefone');
-            $table->string('cidade');
-            $table->string('estado');
+            $table->string('titulo', 200);
+            $table->text('descricao');
+            $table->string('autor', 200);
+            $table->string('editora', 100);
+            $table->integer('ano');
             $table->timestamps();
         });
     }
+
 
     /**
      * Reverse the migrations.
@@ -31,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('contatos');
+        Schema::dropIfExists('livros');
     }
 };

@@ -20,6 +20,17 @@ class ContatosController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function buscar(Request $request) {
+        $contatos = Contato::where('nome','LIKE','%'.$request->input('busca').'%')->orwhere('email','LIKE','%'.$request->input('busca').'%')->get();
+        return view('contato.index',array('contatos' => $contatos,'busca'=>$request->input('busca')));
+    }
+
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
